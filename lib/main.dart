@@ -2,18 +2,12 @@ import 'dart:math';
 
 import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
 var _allDreams = <Dream>[];
 
 void main() {
-  var faker = Faker();
-  var random = Random();
-  for (var i = 0; i < 10; i++) {
-    _allDreams.add(new Dream(faker.lorem.words(random.nextInt(4) + 1).join(" "),
-        faker.lorem.sentences(random.nextInt(40) + 1).join(), Uuid().v4()));
-  }
-
   runApp(MyApp());
 }
 
@@ -46,6 +40,30 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   @override
+  void initState() {
+    super.initState();
+
+    loadData();
+  }
+
+  loadData() async {
+    final prefs = await SharedPreferences.getInstance();
+    var _loadedDreams = <Dream>[];
+
+    var faker = Faker();
+    var random = Random();
+    for (var i = 0; i < 20; i++) {
+      _loadedDreams.add(new Dream(
+          faker.lorem.words(random.nextInt(4) + 1).join(" "),
+          faker.lorem.sentences(random.nextInt(40) + 1).join(),
+          Uuid().v4()));
+    }
+    setState(() {
+      _allDreams = _loadedDreams;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -62,6 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget _buildDreamList() {
     return ListView.separated(
+        padding: EdgeInsets.only(top: 10, bottom: 10),
         separatorBuilder: (context, index) {
           return Divider();
         },
@@ -91,14 +110,20 @@ class _MyHomePageState extends State<MyHomePage> {
           builder: (BuildContext context) {
             return AlertDialog(
               title: Text("Confirm"),
-              content: Text("Are you sure you wish to delete this dream?"),
+              content: Text(
+                  "Are you sure you wish to delete this dream?\n\nIt cannot be restored afterwards!"),
               actions: <Widget>[
-                TextButton(
-                    onPressed: () => Navigator.of(context).pop(true),
-                    child: Text("DELETE")),
                 TextButton(
                   onPressed: () => Navigator.of(context).pop(false),
                   child: Text("CANCEL"),
+                ),
+                ElevatedButton(
+                  onPressed: () => Navigator.of(context).pop(true),
+                  child: Text("DELETE"),
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(Colors.red),
+                  ),
                 ),
               ],
             );
