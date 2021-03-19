@@ -114,7 +114,13 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       background: Container(
         color: Colors.red,
-        child: Icon(Icons.delete),
+        child: Padding(
+          padding: EdgeInsets.only(right:20),
+          child: Row(
+            children: [Icon(Icons.delete)],
+            mainAxisAlignment: MainAxisAlignment.end,
+          ),
+        ),
       ),
       direction: DismissDirection.endToStart,
       confirmDismiss: (DismissDirection direction) async {
