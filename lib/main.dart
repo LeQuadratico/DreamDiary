@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:faker/faker.dart';
@@ -6,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
 var _allDreams = <Dream>[];
+SharedPreferences prefs;
 
 void main() {
   runApp(MyApp());
@@ -47,17 +49,28 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   loadData() async {
-    final prefs = await SharedPreferences.getInstance();
+    prefs = await SharedPreferences.getInstance();
+    final dreamsEncoded = prefs.getString("allDreams");
+
     var _loadedDreams = <Dream>[];
 
-    var faker = Faker();
-    var random = Random();
-    for (var i = 0; i < 20; i++) {
-      _loadedDreams.add(new Dream(
-          faker.lorem.words(random.nextInt(4) + 1).join(" "),
-          faker.lorem.sentences(random.nextInt(40) + 1).join(),
-          Uuid().v4()));
+    if (dreamsEncoded != null) {
+      /* _loadedDreams = jsonDecode(dreamsEncoded); */
+      var _dynamicList = jsonDecode(dreamsEncoded);
+      _dynamicList.forEach((dynamic item) => {
+            _loadedDreams.add(Dream(item["title"], item["content"], item["id"]))
+          });
+    } else {
+      var faker = Faker();
+      var random = Random();
+      for (var i = 0; i < 20; i++) {
+        _loadedDreams.add(new Dream(
+            faker.lorem.words(random.nextInt(4) + 1).join(" "),
+            faker.lorem.sentences(random.nextInt(40) + 1).join(),
+            Uuid().v4()));
+      }
     }
+
     setState(() {
       _allDreams = _loadedDreams;
     });
@@ -133,6 +146,7 @@ class _MyHomePageState extends State<MyHomePage> {
       onDismissed: (dir) {
         setState(() {
           _allDreams.remove(dream);
+          prefs.setString("allDreams", jsonEncode(_allDreams));
         });
       },
       key: ValueKey(dream.id),
@@ -198,6 +212,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         setState(() {
                           _allDreams.add(newDream);
                         });
+                        prefs.setString("allDreams", jsonEncode(_allDreams));
                         Navigator.of(context).pop();
                       }
                     },
@@ -220,4 +235,10 @@ class Dream {
   DateTime date;
 
   Dream(this.title, this.content, this.id);
+
+  Map<String, dynamic> toJson() => {
+        'title': this.title,
+        'content': this.content,
+        'id': this.id,
+      };
 }
