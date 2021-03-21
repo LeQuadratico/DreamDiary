@@ -1,3 +1,4 @@
+import 'package:dream_diary/views/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
         "/": (context) => DreamListScreen(),
         "/newOrEditDream": (context) => AddOrEditDreamScreen(),
         "/dreamDetails": (context) => DreamDetailsScreen(),
+        "/settings": (context) => SettingsScreen(),
       },
     );
   }

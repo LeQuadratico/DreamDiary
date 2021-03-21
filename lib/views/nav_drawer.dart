@@ -41,7 +41,8 @@ class NavDrawer extends StatelessWidget {
             leading: Icon(Icons.settings),
             onTap: () {
               Navigator.pop(context);
-              /* Navigator.pushReplacementNamed(context, "/"); */
+              if (ModalRoute.of(context).settings.name != "/settings")
+              Navigator.pushReplacementNamed(context, "/settings");
             },
           ),
         ],
