@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'nav_drawer.dart';
+
 import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -21,6 +23,10 @@ class _DreamListScreenState extends State<DreamListScreen> {
     super.initState();
 
     loadData();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      final bool args = ModalRoute.of(context).settings.arguments;
+      if (args != null && args) _pushAddDream();
+    });
   }
 
   void reload() {
@@ -43,7 +49,7 @@ class _DreamListScreenState extends State<DreamListScreen> {
     } else {
       var faker = Faker();
       var random = Random();
-      for (var i = 0; i < 20; i++) {
+      for (var i = 0; i < 5; i++) {
         _loadedDreams.add(new Dream(
             faker.lorem.words(random.nextInt(4) + 1).join(" "),
             faker.lorem.sentences(random.nextInt(40) + 1).join(),
@@ -68,6 +74,7 @@ class _DreamListScreenState extends State<DreamListScreen> {
         tooltip: 'Add Dream',
         child: Icon(Icons.add),
       ),
+      drawer: NavDrawer(),
     );
   }
 

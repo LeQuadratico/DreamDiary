@@ -28,12 +28,6 @@ class _DreamDetailsScreenState extends State<DreamDetailsScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              /* Text(
-                dream.title,
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.headline4,
-              ),
-              SizedBox(height: 15), */
               Text(
                 dream.content,
               ),
