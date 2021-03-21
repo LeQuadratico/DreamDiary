@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.dream_diary">
+    package="de.feelthegame.dream_diary">
    <application
-        android:label="dream_diary"
+        android:label="Dream Diary"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

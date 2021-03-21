@@ -1,4 +1,4 @@
-package com.example.dream_diary
+package de.feelthegame.dream_diary
 
 import io.flutter.embedding.android.FlutterActivity
 
