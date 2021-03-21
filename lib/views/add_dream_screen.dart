@@ -56,7 +56,7 @@ class _AddDreamScreenState extends State<AddDreamScreen> {
                     return null;
                   },
                 ),
-                SizedBox(height: 20),
+                /* SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState.validate()) {
@@ -65,12 +65,24 @@ class _AddDreamScreenState extends State<AddDreamScreen> {
                     }
                   },
                   child: Text('Save Dream'),
-                ),
+                ), */
               ],
             ),
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: saveDream,
+        tooltip: "Save Dream",
+        child: Icon(Icons.save),
+      ),
     );
+  }
+
+  void saveDream() {
+    if (_formKey.currentState.validate()) {
+      _formKey.currentState.save();
+      Navigator.pop(context, newDream);
+    }
   }
 }

@@ -32,7 +32,9 @@ class _DreamListScreenState extends State<DreamListScreen> {
     if (dreamsEncoded != null) {
       var _dynamicList = jsonDecode(dreamsEncoded);
       _dynamicList.forEach((dynamic item) => {
-            _loadedDreams.add(Dream(item["title"], item["content"], item["id"]))
+            if (item != null)
+              _loadedDreams
+                  .add(Dream(item["title"], item["content"], item["id"]))
           });
     } else {
       var faker = Faker();
@@ -85,6 +87,9 @@ class _DreamListScreenState extends State<DreamListScreen> {
           padding: EdgeInsets.only(top: 10),
           child: Text(dream.content),
         ),
+        onTap: () {
+          Navigator.pushNamed(context, "/dreamDetails", arguments: dream);
+        },
       ),
       background: Container(
         color: Colors.red,
@@ -135,6 +140,8 @@ class _DreamListScreenState extends State<DreamListScreen> {
 
   void _pushAddDream() async {
     final result = await Navigator.pushNamed(context, "/newDream");
+
+    if (result == null) return;
 
     setState(() {
       allDreams.add(result);

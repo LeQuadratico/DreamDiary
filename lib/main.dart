@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'views/add_dream_screen.dart';
 import 'views/dream_list_screen.dart';
+import 'package:dream_diary/views/dream_details_screen.dart';
 
 var allDreams = <Dream>[];
 SharedPreferences prefs;
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
       routes: {
         "/": (context) => DreamListScreen(),
         "/newDream": (context) => AddDreamScreen(),
+        "/dreamDetails": (context) => DreamDetailsScreen(),
       },
     );
   }
