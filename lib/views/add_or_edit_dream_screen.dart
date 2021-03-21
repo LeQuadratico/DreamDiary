@@ -3,20 +3,24 @@ import 'package:uuid/uuid.dart';
 
 import '../main.dart';
 
-class AddDreamScreen extends StatefulWidget {
+class AddOrEditDreamScreen extends StatefulWidget {
   @override
-  _AddDreamScreenState createState() => _AddDreamScreenState();
+  _AddOrEditDreamScreenState createState() => _AddOrEditDreamScreenState();
 }
 
-class _AddDreamScreenState extends State<AddDreamScreen> {
+class _AddOrEditDreamScreenState extends State<AddOrEditDreamScreen> {
   final _formKey = GlobalKey<FormState>();
-  Dream newDream = new Dream("Empty", "Empty", Uuid().v4());
+  Dream newDream;
+
   @override
   Widget build(BuildContext context) {
+    newDream = ModalRoute.of(context).settings.arguments;
+    if (newDream == null) newDream = new Dream("", "", Uuid().v4());
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Add Dream",
+          "Add/Edit Dream",
         ),
       ),
       body: SingleChildScrollView(
@@ -27,6 +31,7 @@ class _AddDreamScreenState extends State<AddDreamScreen> {
             child: Column(
               children: [
                 TextFormField(
+                  initialValue: newDream.title,
                   decoration: InputDecoration(
                     hintText: "Title",
                     border: OutlineInputBorder(),
@@ -41,6 +46,7 @@ class _AddDreamScreenState extends State<AddDreamScreen> {
                 ),
                 SizedBox(height: 20),
                 TextFormField(
+                  initialValue: newDream.content,
                   keyboardType: TextInputType.multiline,
                   /*  minLines: 5, */
                   maxLines: null,

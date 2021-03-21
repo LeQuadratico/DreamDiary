@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 import '../main.dart';
@@ -8,9 +10,14 @@ class DreamDetailsScreen extends StatefulWidget {
 }
 
 class _DreamDetailsScreenState extends State<DreamDetailsScreen> {
+  Dream dream;
+  var list;
+
   @override
   Widget build(BuildContext context) {
-    final Dream dream = ModalRoute.of(context).settings.arguments;
+    final DreamAndList args = ModalRoute.of(context).settings.arguments;
+    dream = args.dream;
+    list = args.list;
     return Scaffold(
       appBar: AppBar(
         title: Text(dream.title),
@@ -34,6 +41,28 @@ class _DreamDetailsScreenState extends State<DreamDetailsScreen> {
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _editDream,
+        tooltip: "Edit Dream",
+        child: Icon(Icons.edit),
+      ),
     );
+  }
+
+  void _editDream() async {
+    final result =
+        await Navigator.pushNamed(context, "/newOrEditDream", arguments: dream);
+
+    if (result == null) return;
+
+    setState(() {
+      final index = allDreams.indexOf(dream);
+      allDreams.remove(dream);
+      allDreams.insert(index, result);
+      dream = result;
+    });
+
+    list();
+    prefs.setString("allDreams", jsonEncode(allDreams));
   }
 }

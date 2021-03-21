@@ -23,6 +23,10 @@ class _DreamListScreenState extends State<DreamListScreen> {
     loadData();
   }
 
+  void reload() {
+    setState(() {});
+  }
+
   loadData() async {
     prefs = await SharedPreferences.getInstance();
     final dreamsEncoded = prefs.getString("allDreams");
@@ -88,7 +92,8 @@ class _DreamListScreenState extends State<DreamListScreen> {
           child: Text(dream.content),
         ),
         onTap: () {
-          Navigator.pushNamed(context, "/dreamDetails", arguments: dream);
+          Navigator.pushNamed(context, "/dreamDetails",
+              arguments: DreamAndList(dream, reload));
         },
       ),
       background: Container(
@@ -139,7 +144,7 @@ class _DreamListScreenState extends State<DreamListScreen> {
   }
 
   void _pushAddDream() async {
-    final result = await Navigator.pushNamed(context, "/newDream");
+    final result = await Navigator.pushNamed(context, "/newOrEditDream");
 
     if (result == null) return;
 
