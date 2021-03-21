@@ -28,19 +28,23 @@ class MyApp extends StatelessWidget {
         accentColor: Colors.blueGrey,
       ),
       themeMode: ThemeMode.system,
-      home: MyHomePage(),
+      initialRoute: "/",
+      routes: {
+        "/": (context) => DreamListScreen(),
+        "/newDream": (context) => AddDreamScreen(),
+      },
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
+class DreamListScreen extends StatefulWidget {
   final String title = "Dream Diary";
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _DreamListScreenState createState() => _DreamListScreenState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _DreamListScreenState extends State<DreamListScreen> {
   @override
   void initState() {
     super.initState();
@@ -55,7 +59,6 @@ class _MyHomePageState extends State<MyHomePage> {
     var _loadedDreams = <Dream>[];
 
     if (dreamsEncoded != null) {
-      /* _loadedDreams = jsonDecode(dreamsEncoded); */
       var _dynamicList = jsonDecode(dreamsEncoded);
       _dynamicList.forEach((dynamic item) => {
             _loadedDreams.add(Dream(item["title"], item["content"], item["id"]))
@@ -115,7 +118,7 @@ class _MyHomePageState extends State<MyHomePage> {
       background: Container(
         color: Colors.red,
         child: Padding(
-          padding: EdgeInsets.only(right:20),
+          padding: EdgeInsets.only(right: 20),
           child: Row(
             children: [Icon(Icons.delete)],
             mainAxisAlignment: MainAxisAlignment.end,
@@ -159,78 +162,85 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  void _pushAddDream() {
-    Navigator.of(context).push(_newDiaryPage());
-  }
+  void _pushAddDream() async {
+    final result = await Navigator.pushNamed(context, "/newDream");
 
-  MaterialPageRoute<void> _newDiaryPage() {
-    final _formKey = GlobalKey<FormState>();
-    Dream newDream = new Dream("Empty", "Empty", Uuid().v4());
-    return MaterialPageRoute<void>(builder: (BuildContext context) {
-      return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            "Add Dream",
-          ),
+    setState(() {
+      _allDreams.add(result);
+    });
+    prefs.setString("allDreams", jsonEncode(_allDreams));
+  }
+}
+
+class AddDreamScreen extends StatefulWidget {
+  @override
+  _AddDreamScreenState createState() => _AddDreamScreenState();
+}
+
+class _AddDreamScreenState extends State<AddDreamScreen> {
+  final _formKey = GlobalKey<FormState>();
+  Dream newDream = new Dream("Empty", "Empty", Uuid().v4());
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          "Add Dream",
         ),
-        body: SingleChildScrollView(
-          child: Form(
-            key: _formKey,
-            child: Container(
-              padding: EdgeInsets.all(10),
-              child: Column(
-                children: [
-                  TextFormField(
-                    decoration: InputDecoration(
-                      hintText: "Title",
-                      border: OutlineInputBorder(),
-                    ),
-                    onSaved: (val) => newDream.title = val,
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return 'Please enter a title';
-                      }
-                      return null;
-                    },
+      ),
+      body: SingleChildScrollView(
+        child: Form(
+          key: _formKey,
+          child: Container(
+            padding: EdgeInsets.all(10),
+            child: Column(
+              children: [
+                TextFormField(
+                  decoration: InputDecoration(
+                    hintText: "Title",
+                    border: OutlineInputBorder(),
                   ),
-                  SizedBox(height: 20),
-                  TextFormField(
-                    keyboardType: TextInputType.multiline,
-                    /*  minLines: 5, */
-                    maxLines: null,
-                    decoration: InputDecoration(
-                      hintText: "Content",
-                      border: OutlineInputBorder(),
-                    ),
-                    onSaved: (val) => newDream.content = val,
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return 'Please enter some text';
-                      }
-                      return null;
-                    },
+                  onSaved: (val) => newDream.title = val,
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Please enter a title';
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(height: 20),
+                TextFormField(
+                  keyboardType: TextInputType.multiline,
+                  /*  minLines: 5, */
+                  maxLines: null,
+                  decoration: InputDecoration(
+                    hintText: "Content",
+                    border: OutlineInputBorder(),
                   ),
-                  SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: () {
-                      if (_formKey.currentState.validate()) {
-                        _formKey.currentState.save();
-                        setState(() {
-                          _allDreams.add(newDream);
-                        });
-                        prefs.setString("allDreams", jsonEncode(_allDreams));
-                        Navigator.of(context).pop();
-                      }
-                    },
-                    child: Text('Save Dream'),
-                  ),
-                ],
-              ),
+                  onSaved: (val) => newDream.content = val,
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Please enter some text';
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    if (_formKey.currentState.validate()) {
+                      _formKey.currentState.save();
+                      Navigator.pop(context, newDream);
+                    }
+                  },
+                  child: Text('Save Dream'),
+                ),
+              ],
             ),
           ),
         ),
-      );
-    });
+      ),
+    );
   }
 }
 
