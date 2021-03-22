@@ -1,0 +1,1 @@
+This is a simple but helpfull app to track your dreams! Write down what you dreamt and it will be saved for you locally.
