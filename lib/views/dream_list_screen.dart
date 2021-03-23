@@ -1,12 +1,9 @@
 import 'dart:convert';
-import 'dart:math';
 
 import 'nav_drawer.dart';
 
-import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:uuid/uuid.dart';
 
 import '../main.dart';
 
