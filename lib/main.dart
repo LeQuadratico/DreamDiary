@@ -45,12 +45,13 @@ class Dream {
   String id;
   DateTime date;
 
-  Dream(this.title, this.content, this.id);
+  Dream(this.title, this.content, this.id, this.date);
 
   Map<String, dynamic> toJson() => {
         'title': this.title,
         'content': this.content,
         'id': this.id,
+        'date': this.date.toIso8601String(),
       };
 }
 

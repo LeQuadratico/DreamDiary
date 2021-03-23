@@ -15,7 +15,7 @@ class _AddOrEditDreamScreenState extends State<AddOrEditDreamScreen> {
   @override
   Widget build(BuildContext context) {
     newDream = ModalRoute.of(context).settings.arguments;
-    if (newDream == null) newDream = new Dream("", "", Uuid().v4());
+    if (newDream == null) newDream = new Dream("", "", Uuid().v4(), DateTime.now());
 
     return Scaffold(
       appBar: AppBar(
@@ -88,6 +88,7 @@ class _AddOrEditDreamScreenState extends State<AddOrEditDreamScreen> {
   void saveDream() {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
+      newDream.date = DateTime.now();
       Navigator.pop(context, newDream);
     }
   }
