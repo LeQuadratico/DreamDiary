@@ -95,7 +95,7 @@ class _DreamListScreenState extends State<DreamListScreen> {
         title: Text(dream.title),
         subtitle: Padding(
           padding: EdgeInsets.only(top: 10),
-          child: Text(DateFormat.yMMMMd().format(dream.date) + "\n" + dream.content),
+          child: Text(DateFormat.yMMMMd().format(dream.date) + "\n\n" + dream.content),
         ),
         onTap: () {
           Navigator.pushNamed(context, "/dreamDetails",
