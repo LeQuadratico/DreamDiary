@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
 
 import '../main.dart';
@@ -15,7 +16,8 @@ class _AddOrEditDreamScreenState extends State<AddOrEditDreamScreen> {
   @override
   Widget build(BuildContext context) {
     newDream = ModalRoute.of(context).settings.arguments;
-    if (newDream == null) newDream = new Dream("", "", Uuid().v4(), DateTime.now());
+    if (newDream == null)
+      newDream = new Dream("", "", Uuid().v4(), DateTime.now());
 
     return Scaffold(
       appBar: AppBar(
@@ -62,16 +64,24 @@ class _AddOrEditDreamScreenState extends State<AddOrEditDreamScreen> {
                     return null;
                   },
                 ),
-                /* SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState.validate()) {
-                      _formKey.currentState.save();
-                      Navigator.pop(context, newDream);
+                SizedBox(height: 20),
+                OutlinedButton(
+                  child: Text(DateFormat.yMMMMd().format(newDream.date)),
+                  onPressed: () async {
+                    var newTime = await showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime(2000, 0, 0),
+                        lastDate:
+                            DateTime.now().add(new Duration(days: 360 * 100)));
+
+                    if (newTime != null) {
+                      setState(() {
+                        newDream.date = newTime;
+                      });
                     }
                   },
-                  child: Text('Save Dream'),
-                ), */
+                ),
               ],
             ),
           ),
@@ -88,7 +98,6 @@ class _AddOrEditDreamScreenState extends State<AddOrEditDreamScreen> {
   void saveDream() {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
-      newDream.date = DateTime.now();
       Navigator.pop(context, newDream);
     }
   }
