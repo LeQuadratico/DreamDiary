@@ -46,7 +46,7 @@ class _DreamListScreenState extends State<DreamListScreen> {
               _loadedDreams
                   .add(Dream(item["title"], item["content"], item["id"]))
           });
-    } else {
+    }/*  else {
       var faker = Faker();
       var random = Random();
       for (var i = 0; i < 5; i++) {
@@ -55,7 +55,7 @@ class _DreamListScreenState extends State<DreamListScreen> {
             faker.lorem.sentences(random.nextInt(40) + 1).join(),
             Uuid().v4()));
       }
-    }
+    } */
 
     setState(() {
       allDreams = _loadedDreams;

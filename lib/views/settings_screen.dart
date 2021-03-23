@@ -1,5 +1,8 @@
+import 'package:dream_diary/main.dart';
 import 'package:dream_diary/views/nav_drawer.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:package_info/package_info.dart';
 
 class SettingsScreen extends StatefulWidget {
   @override
@@ -7,6 +10,22 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
+  var versionName = "loading...";
+
+  @override
+  void initState() {
+    super.initState();
+
+    PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
+      /* String appName = packageInfo.appName;
+      String packageName = packageInfo.packageName; */
+      setState(() {
+        versionName = packageInfo.version;
+      });
+      /* String buildNumber = packageInfo.buildNumber; */
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,35 +33,66 @@ class _SettingsScreenState extends State<SettingsScreen> {
         title: Text("Settings"),
       ),
       drawer: NavDrawer(),
-      body: Padding(
+      body: ListView(
         padding: EdgeInsets.only(top: 10, bottom: 10),
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Container(
-              height: 100,
-              child: ListView(
-                children: [
-                  ListTile(
-                    title: Text("Delete all dreams"),
-                    subtitle: Text(
-                        "This is permanent. You cannot restore your dreams afterwards!"),
-                    leading: Icon(Icons.delete_forever),
-                    hoverColor: Colors.red,
-                    focusColor: Colors.red,
-                    selectedTileColor: Colors.red,
-                    onTap: () {},
-                  ),
-                ],
-              ),
-            ),
-            Text(
-              "© David Leukert 2021",
+        children: [
+          ListTile(
+            title: Text("Delete all dreams"),
+            subtitle: Text(
+                "This is permanent. You cannot restore your dreams afterwards!"),
+            leading: Icon(Icons.delete_forever),
+            hoverColor: Colors.red,
+            focusColor: Colors.red,
+            selectedTileColor: Colors.red,
+            onTap: () async {
+              bool delete = await showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text("Confirm"),
+                    content: Text(
+                        "Are you sure you wish to delete all dreams?\n\nThey cannot be restored afterwards!"),
+                    actions: <Widget>[
+                      TextButton(
+                        onPressed: () => Navigator.of(context).pop(false),
+                        child: Text("CANCEL"),
+                      ),
+                      ElevatedButton(
+                        onPressed: () => Navigator.of(context).pop(true),
+                        child: Text("DELETE ALL"),
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all<Color>(Colors.red),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              );
+
+              if (delete != null && delete) {
+                setState(() {
+                  allDreams.clear();
+                });
+
+                final prefs = await SharedPreferences.getInstance();
+                prefs.remove('allDreams');
+
+                final snackBar = SnackBar(
+                  content: Text("All dreams have been deleted"),
+                );
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              }
+            },
+          ),
+          ListTile(
+            title: Text(
+              "Version $versionName",
               textAlign: TextAlign.center,
-            )
-          ],
-        ),
+              style: Theme.of(context).textTheme.caption,
+            ),
+          ),
+        ],
       ),
     );
   }
