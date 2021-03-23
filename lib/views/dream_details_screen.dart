@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../main.dart';
 
@@ -28,7 +29,11 @@ class _DreamDetailsScreenState extends State<DreamDetailsScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text(dream.date.toString()),
+              Text(
+                DateFormat.yMMMMd().format(dream.date),
+                style: Theme.of(context).textTheme.caption,
+              ),
+              SizedBox(height: 10),
               Text(dream.content),
             ],
           ),
