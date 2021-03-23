@@ -28,9 +28,8 @@ class _DreamDetailsScreenState extends State<DreamDetailsScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text(
-                dream.content,
-              ),
+              Text(dream.date.toString()),
+              Text(dream.content),
             ],
           ),
         ),

@@ -41,7 +41,7 @@ class _DreamListScreenState extends State<DreamListScreen> {
       _dynamicList.forEach((dynamic item) => {
             if (item != null)
               _loadedDreams
-                  .add(Dream(item["title"], item["content"], item["id"]))
+                  .add(Dream(item["title"], item["content"], item["id"], DateTime.parse(item["date"])))
           });
     }/*  else {
       var faker = Faker();
