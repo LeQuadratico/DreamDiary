@@ -1,0 +1,22 @@
+{
+    "appName": "Dream Diary",
+    "dreamList": "Dream List",
+    "addDream": "Add Dream",
+    "settings": "Settings",
+    "title": "Title",
+    "content": "Content",
+    "addEditDream": "Add/Edit Dream",
+    "saveDream": "Save Dream",
+    "editDream": "Edit Dream",
+    "deleteAllDreams": "Delete all Dreams",
+    "deleteAllDreamsDescription": "This is permanent. You cannot restore your dreams afterwards!",
+    "confirm": "Confirm",
+    "confirmDeleteAllDreams": "Are you sure you wish to delete all dreams?\n\nThey cannot be restored afterwards!",
+    "confirmDeleteDream": "Are you sure you wish to delete this dream?\n\nIt cannot be restored afterwards!",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "deleteAll": "Delete all",
+    "version": "Version",
+    "pleaseEnterText": "Please enter some text",
+    "allDreamsDeleted": "All dreams have been deleted"
+}
