@@ -6,12 +6,11 @@ import 'nav_drawer.dart';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../main.dart';
 
 class DreamListScreen extends StatefulWidget {
-  final String title = "Dream Diary";
-
   @override
   _DreamListScreenState createState() => _DreamListScreenState();
 }
@@ -65,12 +64,12 @@ class _DreamListScreenState extends State<DreamListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(AppLocalizations.of(context).appName),
       ),
       body: _buildDreamList(),
       floatingActionButton: FloatingActionButton(
         onPressed: _pushAddDream,
-        tooltip: 'Add Dream',
+        tooltip: AppLocalizations.of(context).addDream,
         child: Icon(Icons.add),
       ),
       drawer: NavDrawer(),
@@ -118,17 +117,16 @@ class _DreamListScreenState extends State<DreamListScreen> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text("Confirm"),
-              content: Text(
-                  "Are you sure you wish to delete this dream?\n\nIt cannot be restored afterwards!"),
+              title: Text(AppLocalizations.of(context).confirm),
+              content: Text(AppLocalizations.of(context).confirmDeleteDream),
               actions: <Widget>[
                 TextButton(
                   onPressed: () => Navigator.of(context).pop(false),
-                  child: Text("CANCEL"),
+                  child: Text(AppLocalizations.of(context).cancel.toUpperCase()),
                 ),
                 ElevatedButton(
                   onPressed: () => Navigator.of(context).pop(true),
-                  child: Text("DELETE"),
+                  child: Text(AppLocalizations.of(context).delete.toUpperCase()),
                   style: ButtonStyle(
                     backgroundColor:
                         MaterialStateProperty.all<Color>(Colors.red),

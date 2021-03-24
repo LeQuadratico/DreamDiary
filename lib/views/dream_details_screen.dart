@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../main.dart';
 
@@ -41,7 +42,7 @@ class _DreamDetailsScreenState extends State<DreamDetailsScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _editDream,
-        tooltip: "Edit Dream",
+        tooltip: AppLocalizations.of(context).editDream,
         child: Icon(Icons.edit),
       ),
     );

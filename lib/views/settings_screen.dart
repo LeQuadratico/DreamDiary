@@ -3,6 +3,7 @@ import 'package:dream_diary/views/nav_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:package_info/package_info.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SettingsScreen extends StatefulWidget {
   @override
@@ -30,16 +31,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Settings"),
+        title: Text(AppLocalizations.of(context).settings),
       ),
       drawer: NavDrawer(),
       body: ListView(
         padding: EdgeInsets.only(top: 10, bottom: 10),
         children: [
           ListTile(
-            title: Text("Delete all dreams"),
+            title: Text(AppLocalizations.of(context).deleteAllDreams),
             subtitle: Text(
-                "This is permanent. You cannot restore your dreams afterwards!"),
+                AppLocalizations.of(context).deleteAllDreamsDescription),
             leading: Icon(Icons.delete_forever),
             hoverColor: Colors.red,
             focusColor: Colors.red,
@@ -49,17 +50,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 context: context,
                 builder: (BuildContext context) {
                   return AlertDialog(
-                    title: Text("Confirm"),
+                    title: Text(AppLocalizations.of(context).confirm),
                     content: Text(
-                        "Are you sure you wish to delete all dreams?\n\nThey cannot be restored afterwards!"),
+                        AppLocalizations.of(context).confirmDeleteAllDreams),
                     actions: <Widget>[
                       TextButton(
                         onPressed: () => Navigator.of(context).pop(false),
-                        child: Text("CANCEL"),
+                        child: Text(AppLocalizations.of(context).cancel.toUpperCase()),
                       ),
                       ElevatedButton(
                         onPressed: () => Navigator.of(context).pop(true),
-                        child: Text("DELETE ALL"),
+                        child: Text(AppLocalizations.of(context).deleteAll.toUpperCase()),
                         style: ButtonStyle(
                           backgroundColor:
                               MaterialStateProperty.all<Color>(Colors.red),
@@ -79,7 +80,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 prefs.remove('allDreams');
 
                 final snackBar = SnackBar(
-                  content: Text("All dreams have been deleted"),
+                  content: Text(AppLocalizations.of(context).allDreamsDeleted),
                 );
                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
               }
@@ -87,7 +88,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
           ListTile(
             title: Text(
-              "Version $versionName",
+              AppLocalizations.of(context).version + " $versionName",
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.caption,
             ),

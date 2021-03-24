@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../main.dart';
 
@@ -22,7 +23,7 @@ class _AddOrEditDreamScreenState extends State<AddOrEditDreamScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Add/Edit Dream",
+          AppLocalizations.of(context).addEditDream
         ),
       ),
       body: SingleChildScrollView(
@@ -53,13 +54,13 @@ class _AddOrEditDreamScreenState extends State<AddOrEditDreamScreen> {
                   /*  minLines: 5, */
                   maxLines: null,
                   decoration: InputDecoration(
-                    hintText: "Content",
+                    hintText: AppLocalizations.of(context).content,
                     border: OutlineInputBorder(),
                   ),
                   onSaved: (val) => newDream.content = val,
                   validator: (value) {
                     if (value.isEmpty) {
-                      return 'Please enter some text';
+                      return AppLocalizations.of(context).pleaseEnterText;
                     }
                     return null;
                   },
@@ -89,7 +90,7 @@ class _AddOrEditDreamScreenState extends State<AddOrEditDreamScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: saveDream,
-        tooltip: "Save Dream",
+        tooltip: AppLocalizations.of(context).saveDream,
         child: Icon(Icons.save),
       ),
     );
