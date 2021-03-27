@@ -1,19 +1,21 @@
+import 'package:dream_diary/secure_storage_manager.dart';
 import 'package:dream_diary/views/local_auth_screen.dart';
 import 'package:dream_diary/views/settings_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'views/add_or_edit_dream_screen.dart';
 import 'views/dream_list_screen.dart';
 import 'views/dream_details_screen.dart';
+import 'globals.dart' as globals;
 
 var allDreams = <Dream>[];
-SharedPreferences prefs;
 
 void main() {
   runApp(MyApp());
+  globals.secureStorageManager = new SecureStorageManager();
+  globals.secureStorageManager.loadList();
 }
 
 class MyApp extends StatelessWidget {
