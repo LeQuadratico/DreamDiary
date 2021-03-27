@@ -1,11 +1,10 @@
-import 'package:dream_diary/main.dart';
 import 'package:dream_diary/views/nav_drawer.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:package_info/package_info.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../app_lifecycle_reactor.dart';
+import '../globals.dart' as globals;
 
 class SettingsScreen extends StatefulWidget {
   @override
@@ -78,11 +77,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
               if (delete != null && delete) {
                 setState(() {
-                  allDreams.clear();
+                  /* allDreams.clear(); */
+                  globals.secureStorageManager.removeAllDreams();
                 });
-
-                final prefs = await SharedPreferences.getInstance();
-                prefs.remove('allDreams');
 
                 final snackBar = SnackBar(
                   content: Text(AppLocalizations.of(context).allDreamsDeleted),

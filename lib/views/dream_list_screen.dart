@@ -1,15 +1,13 @@
-import 'dart:convert';
-
 import 'package:intl/intl.dart';
 
 import '../app_lifecycle_reactor.dart';
 import 'nav_drawer.dart';
 
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../main.dart';
+import '../globals.dart' as globals;
 
 class DreamListScreen extends StatefulWidget {
   @override
@@ -28,35 +26,13 @@ class _DreamListScreenState extends State<DreamListScreen> {
     });
   }
 
-  void reload() {
+  reload() {
     setState(() {});
   }
 
   loadData() async {
-    prefs = await SharedPreferences.getInstance();
-    final dreamsEncoded = prefs.getString("allDreams");
-
     var _loadedDreams = <Dream>[];
-
-    if (dreamsEncoded != null) {
-      var _dynamicList = jsonDecode(dreamsEncoded);
-      _dynamicList.forEach((dynamic item) => {
-            if (item != null)
-              _loadedDreams
-                  .add(Dream(item["title"], item["content"], item["id"], DateTime.parse(item["date"])))
-          });
-    }
-    
-    /*  else {
-      var faker = Faker();
-      var random = Random();
-      for (var i = 0; i < 5; i++) {
-        _loadedDreams.add(new Dream(
-            faker.lorem.words(random.nextInt(4) + 1).join(" "),
-            faker.lorem.sentences(random.nextInt(40) + 1).join(),
-            Uuid().v4()));
-      }
-    } */
+    _loadedDreams = globals.secureStorageManager.getAllDreams();
 
     setState(() {
       allDreams = _loadedDreams;
@@ -97,7 +73,11 @@ class _DreamListScreenState extends State<DreamListScreen> {
         title: Text(dream.title),
         subtitle: Padding(
           padding: EdgeInsets.only(top: 10),
-          child: Text(DateFormat.yMMMMd(Localizations.localeOf(context).languageCode).format(dream.date) + "\n\n" + dream.content),
+          child: Text(
+              DateFormat.yMMMMd(Localizations.localeOf(context).languageCode)
+                      .format(dream.date) +
+                  "\n\n" +
+                  dream.content),
         ),
         onTap: () {
           Navigator.pushNamed(context, "/dreamDetails",
@@ -125,11 +105,13 @@ class _DreamListScreenState extends State<DreamListScreen> {
               actions: <Widget>[
                 TextButton(
                   onPressed: () => Navigator.of(context).pop(false),
-                  child: Text(AppLocalizations.of(context).cancel.toUpperCase()),
+                  child:
+                      Text(AppLocalizations.of(context).cancel.toUpperCase()),
                 ),
                 ElevatedButton(
                   onPressed: () => Navigator.of(context).pop(true),
-                  child: Text(AppLocalizations.of(context).delete.toUpperCase()),
+                  child:
+                      Text(AppLocalizations.of(context).delete.toUpperCase()),
                   style: ButtonStyle(
                     backgroundColor:
                         MaterialStateProperty.all<Color>(Colors.red),
@@ -142,8 +124,8 @@ class _DreamListScreenState extends State<DreamListScreen> {
       },
       onDismissed: (dir) {
         setState(() {
-          allDreams.remove(dream);
-          prefs.setString("allDreams", jsonEncode(allDreams));
+          globals.secureStorageManager.removeDream(dream);
+          /* allDreams.remove(dream); */
         });
       },
       key: ValueKey(dream.id),
@@ -156,8 +138,8 @@ class _DreamListScreenState extends State<DreamListScreen> {
     if (result == null) return;
 
     setState(() {
-      allDreams.add(result);
+      globals.secureStorageManager.addDream(result);
+      /* allDreams.add(result); */
     });
-    prefs.setString("allDreams", jsonEncode(allDreams));
   }
 }
