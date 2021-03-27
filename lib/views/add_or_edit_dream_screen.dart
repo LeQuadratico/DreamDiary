@@ -66,7 +66,7 @@ class _AddOrEditDreamScreenState extends State<AddOrEditDreamScreen> {
                 ),
                 SizedBox(height: 20),
                 OutlinedButton(
-                  child: Text(DateFormat.yMMMMd().format(newDream.date)),
+                  child: Text(DateFormat.yMMMMd(Localizations.localeOf(context).languageCode).format(newDream.date)),
                   onPressed: () async {
                     var newTime = await showDatePicker(
                         context: context,
