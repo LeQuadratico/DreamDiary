@@ -31,7 +31,7 @@ class _DreamDetailsScreenState extends State<DreamDetailsScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                DateFormat.yMMMMd().format(dream.date),
+                DateFormat.yMMMMd(Localizations.localeOf(context).languageCode).format(dream.date),
                 style: Theme.of(context).textTheme.caption,
               ),
               SizedBox(height: 10),
