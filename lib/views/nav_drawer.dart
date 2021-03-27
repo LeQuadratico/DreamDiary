@@ -24,8 +24,8 @@ class NavDrawer extends StatelessWidget {
             leading: Icon(Icons.list),
             onTap: () {
               Navigator.pop(context);
-              if (ModalRoute.of(context).settings.name != "/")
-                Navigator.pushReplacementNamed(context, "/");
+              if (ModalRoute.of(context).settings.name != "/dreamList")
+                Navigator.pushReplacementNamed(context, "/dreamList");
             },
           ),
           ListTile(
@@ -33,7 +33,7 @@ class NavDrawer extends StatelessWidget {
             leading: Icon(Icons.add_circle),
             onTap: () {
               Navigator.pop(context);
-              Navigator.pushReplacementNamed(context, "/", arguments: true);
+              Navigator.pushReplacementNamed(context, "/dreamList", arguments: true);
             },
           ),
           Divider(),

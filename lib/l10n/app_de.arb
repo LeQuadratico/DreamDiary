@@ -11,12 +11,14 @@
     "deleteAllDreams": "Alle Träume löschen",
     "deleteAllDreamsDescription": "Das ist permanent. Du kannst sie dann nicht wiederherstellen!",
     "confirm": "Bestätigen",
-    "confirmDeleteAllDreams": "Willst du alle Träume wirklich löschen?\n\nSie können dann nicht wiederhergestellt werden!",
-    "confirmDeleteDream": "Willst du diesen Traum wirklich löschen?\n\nEr kann dann nicht wiederhergestellt werden!",
+    "confirmDeleteAllDreams": "Willst Du alle Träume wirklich löschen?\n\nSie können dann nicht wiederhergestellt werden!",
+    "confirmDeleteDream": "Willst Du diesen Traum wirklich löschen?\n\nEr kann dann nicht wiederhergestellt werden!",
     "cancel": "Abbrechen",
     "delete": "Löschen",
     "deleteAll": "Alle löschen",
     "version": "Version",
     "pleaseEnterText": "Bitte geben sie etwas Text ein",
-    "allDreamsDeleted": "Alle Träume wurden gelöscht"
+    "allDreamsDeleted": "Alle Träume wurden gelöscht",
+    "authenticate": "Authentifizieren",
+    "lockScreenMessage": "Bitte authentifiziere Dich um Zugriff auf Deine Träume zu erhalten"
 }

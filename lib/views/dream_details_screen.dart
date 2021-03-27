@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../app_lifecycle_reactor.dart';
 import '../main.dart';
 
 class DreamDetailsScreen extends StatefulWidget {
@@ -20,7 +21,7 @@ class _DreamDetailsScreenState extends State<DreamDetailsScreen> {
     final DreamAndList args = ModalRoute.of(context).settings.arguments;
     dream = args.dream;
     list = args.list;
-    return Scaffold(
+    return AppLifecycleReactor( Scaffold(
       appBar: AppBar(
         title: Text(dream.title),
       ),
@@ -45,7 +46,7 @@ class _DreamDetailsScreenState extends State<DreamDetailsScreen> {
         tooltip: AppLocalizations.of(context).editDream,
         child: Icon(Icons.edit),
       ),
-    );
+    ));
   }
 
   void _editDream() async {

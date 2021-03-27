@@ -1,3 +1,4 @@
+import 'package:dream_diary/views/local_auth_screen.dart';
 import 'package:dream_diary/views/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
         accentColor: Colors.blueAccent,
       ),
       themeMode: ThemeMode.system,
-      initialRoute: "/",
+      initialRoute: "/localAuth",
       localizationsDelegates: [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
@@ -42,7 +43,8 @@ class MyApp extends StatelessWidget {
         const Locale("de", ""),
       ],
       routes: {
-        "/": (context) => DreamListScreen(),
+        "/localAuth": (context) => LocalAuthScreen(),
+        "/dreamList": (context) => DreamListScreen(),
         "/newOrEditDream": (context) => AddOrEditDreamScreen(),
         "/dreamDetails": (context) => DreamDetailsScreen(),
         "/settings": (context) => SettingsScreen(),

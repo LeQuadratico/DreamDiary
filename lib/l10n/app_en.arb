@@ -18,5 +18,7 @@
     "deleteAll": "Delete all",
     "version": "Version",
     "pleaseEnterText": "Please enter some text",
-    "allDreamsDeleted": "All dreams have been deleted"
+    "allDreamsDeleted": "All dreams have been deleted",
+    "authenticate": "Authenticate",
+    "lockScreenMessage": "Please authenticate to access your dreams"
 }

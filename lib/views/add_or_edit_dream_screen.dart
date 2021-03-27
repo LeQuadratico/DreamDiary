@@ -1,3 +1,4 @@
+import 'package:dream_diary/app_lifecycle_reactor.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
@@ -20,11 +21,9 @@ class _AddOrEditDreamScreenState extends State<AddOrEditDreamScreen> {
     if (newDream == null)
       newDream = new Dream("", "", Uuid().v4(), DateTime.now());
 
-    return Scaffold(
+    return AppLifecycleReactor(Scaffold(
       appBar: AppBar(
-        title: Text(
-          AppLocalizations.of(context).addEditDream
-        ),
+        title: Text(AppLocalizations.of(context).addEditDream),
       ),
       body: SingleChildScrollView(
         child: Form(
@@ -93,7 +92,7 @@ class _AddOrEditDreamScreenState extends State<AddOrEditDreamScreen> {
         tooltip: AppLocalizations.of(context).saveDream,
         child: Icon(Icons.save),
       ),
-    );
+    ));
   }
 
   void saveDream() {
