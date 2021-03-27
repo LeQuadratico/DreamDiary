@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:intl/intl.dart';
 
+import '../app_lifecycle_reactor.dart';
 import 'nav_drawer.dart';
 
 import 'package:flutter/material.dart';
@@ -44,7 +45,9 @@ class _DreamListScreenState extends State<DreamListScreen> {
               _loadedDreams
                   .add(Dream(item["title"], item["content"], item["id"], DateTime.parse(item["date"])))
           });
-    }/*  else {
+    }
+    
+    /*  else {
       var faker = Faker();
       var random = Random();
       for (var i = 0; i < 5; i++) {
@@ -62,7 +65,7 @@ class _DreamListScreenState extends State<DreamListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return AppLifecycleReactor(Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context).appName),
       ),
@@ -73,7 +76,7 @@ class _DreamListScreenState extends State<DreamListScreen> {
         child: Icon(Icons.add),
       ),
       drawer: NavDrawer(),
-    );
+    ));
   }
 
   Widget _buildDreamList() {

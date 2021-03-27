@@ -5,6 +5,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:package_info/package_info.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../app_lifecycle_reactor.dart';
+
 class SettingsScreen extends StatefulWidget {
   @override
   _SettingsScreenState createState() => _SettingsScreenState();
@@ -29,7 +31,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return AppLifecycleReactor(Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context).settings),
       ),
@@ -39,8 +41,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
         children: [
           ListTile(
             title: Text(AppLocalizations.of(context).deleteAllDreams),
-            subtitle: Text(
-                AppLocalizations.of(context).deleteAllDreamsDescription),
+            subtitle:
+                Text(AppLocalizations.of(context).deleteAllDreamsDescription),
             leading: Icon(Icons.delete_forever),
             hoverColor: Colors.red,
             focusColor: Colors.red,
@@ -56,11 +58,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     actions: <Widget>[
                       TextButton(
                         onPressed: () => Navigator.of(context).pop(false),
-                        child: Text(AppLocalizations.of(context).cancel.toUpperCase()),
+                        child: Text(
+                            AppLocalizations.of(context).cancel.toUpperCase()),
                       ),
                       ElevatedButton(
                         onPressed: () => Navigator.of(context).pop(true),
-                        child: Text(AppLocalizations.of(context).deleteAll.toUpperCase()),
+                        child: Text(AppLocalizations.of(context)
+                            .deleteAll
+                            .toUpperCase()),
                         style: ButtonStyle(
                           backgroundColor:
                               MaterialStateProperty.all<Color>(Colors.red),
@@ -95,6 +100,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
         ],
       ),
-    );
+    ));
   }
 }
