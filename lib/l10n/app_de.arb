@@ -21,5 +21,9 @@
     "pleaseEnterTitle": "Bitte gebe einen Titel ein",
     "allDreamsDeleted": "Alle Träume wurden gelöscht",
     "authenticate": "Authentifizieren",
-    "lockScreenMessage": "Bitte authentifiziere Dich um Zugriff auf Deine Träume zu erhalten"
+    "lockScreenMessage": "Bitte authentifiziere Dich um Zugriff auf Deine Träume zu erhalten",
+    "export": "Exportieren",
+    "exportDreams": "Exportiere Deine Träume im JSON Format",
+    "import": "Importieren",
+    "importDreams": "Importiere Deine Träume aus dem JSON Format"
 }

@@ -1,10 +1,17 @@
+import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:dream_diary/views/nav_drawer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_file_dialog/flutter_file_dialog.dart';
 import 'package:package_info/package_info.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../app_lifecycle_reactor.dart';
 import '../globals.dart' as globals;
+import '../main.dart';
 
 class SettingsScreen extends StatefulWidget {
   @override
@@ -39,13 +46,71 @@ class _SettingsScreenState extends State<SettingsScreen> {
         padding: EdgeInsets.only(top: 10, bottom: 10),
         children: [
           ListTile(
+            title: Text(AppLocalizations.of(context).export),
+            subtitle: Text(AppLocalizations.of(context).exportDreams),
+            leading: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.upload_sharp,
+                ),
+              ],
+            ),
+            onTap: () async {
+              final dreamsEncoded = jsonEncode(allDreams);
+              final path =
+                  await getTemporaryDirectory().then((value) => value.path);
+              final file = File("$path/dreams_export.json");
+              file.writeAsString(dreamsEncoded);
+
+              final params = SaveFileDialogParams(
+                sourceFilePath: file.path,
+              );
+              final filePath = await FlutterFileDialog.saveFile(params: params);
+              print(filePath);
+            },
+          ),
+          ListTile(
+            title: Text(AppLocalizations.of(context).import),
+            subtitle: Text(AppLocalizations.of(context).importDreams),
+            leading: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.download_sharp,
+                ),
+              ],
+            ),
+            onTap: () async {
+              final params = OpenFileDialogParams(
+                dialogType: OpenFileDialogType.document,
+                sourceType: SourceType.photoLibrary,
+              );
+              final filePath = await FlutterFileDialog.pickFile(params: params);
+
+              var _loadedDreams = <Dream>[];
+              final file = File(filePath);
+              final dreamsEncoded = await file.readAsString();
+              if (dreamsEncoded != null) {
+                var _dynamicList = jsonDecode(dreamsEncoded);
+                _dynamicList.forEach((dynamic item) => {
+                      if (item != null)
+                        _loadedDreams.add(Dream(item["title"], item["content"],
+                            item["id"], DateTime.parse(item["date"])))
+                    });
+              }
+              setState(() {
+                globals.secureStorageManager
+                    .replaceAllDreams(_loadedDreams);
+              });
+            },
+          ),
+          Divider(),
+          ListTile(
             title: Text(AppLocalizations.of(context).deleteAllDreams),
             subtitle:
                 Text(AppLocalizations.of(context).deleteAllDreamsDescription),
             leading: Icon(Icons.delete_forever),
-            hoverColor: Colors.red,
-            focusColor: Colors.red,
-            selectedTileColor: Colors.red,
             onTap: () async {
               bool delete = await showDialog(
                 context: context,
@@ -88,6 +153,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               }
             },
           ),
+          Divider(),
           ListTile(
             title: Text(
               AppLocalizations.of(context).version + " $versionName",

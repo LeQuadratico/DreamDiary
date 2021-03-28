@@ -21,5 +21,9 @@
     "pleaseEnterTitle": "Please enter a title",
     "allDreamsDeleted": "All dreams have been deleted",
     "authenticate": "Authenticate",
-    "lockScreenMessage": "Please authenticate to access your dreams"
+    "lockScreenMessage": "Please authenticate to access your dreams",
+    "export": "Export",
+    "exportDreams": "Export your dreams in the JSON format",
+    "import": "Import",
+    "importDreams": "Import your dreams in the JSON format"
 }

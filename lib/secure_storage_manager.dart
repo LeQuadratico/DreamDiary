@@ -46,6 +46,12 @@ class SecureStorageManager {
     saveCurrentList();
   }
 
+  replaceAllDreams(List<Dream> newDreamList) {
+    _loadedDreams.clear();
+    _loadedDreams.addAll(newDreamList);
+    saveCurrentList();
+  }
+
   saveCurrentList() {
     storage.write(key: "dreams", value: jsonEncode(_loadedDreams));
   }
