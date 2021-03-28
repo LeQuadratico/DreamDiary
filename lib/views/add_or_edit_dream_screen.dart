@@ -35,13 +35,13 @@ class _AddOrEditDreamScreenState extends State<AddOrEditDreamScreen> {
                 TextFormField(
                   initialValue: newDream.title,
                   decoration: InputDecoration(
-                    hintText: "Title",
+                    hintText: AppLocalizations.of(context).title,
                     border: OutlineInputBorder(),
                   ),
                   onSaved: (val) => newDream.title = val,
                   validator: (value) {
                     if (value.isEmpty) {
-                      return 'Please enter a title';
+                      return AppLocalizations.of(context).pleaseEnterTitle;
                     }
                     return null;
                   },

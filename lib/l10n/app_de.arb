@@ -17,7 +17,8 @@
     "delete": "Löschen",
     "deleteAll": "Alle löschen",
     "version": "Version",
-    "pleaseEnterText": "Bitte geben sie etwas Text ein",
+    "pleaseEnterText": "Bitte gebe etwas Text ein",
+    "pleaseEnterTitle": "Bitte gebe einen Titel ein",
     "allDreamsDeleted": "Alle Träume wurden gelöscht",
     "authenticate": "Authentifizieren",
     "lockScreenMessage": "Bitte authentifiziere Dich um Zugriff auf Deine Träume zu erhalten"

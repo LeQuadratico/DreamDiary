@@ -72,12 +72,17 @@ class _DreamListScreenState extends State<DreamListScreen> {
       child: ListTile(
         title: Text(dream.title),
         subtitle: Padding(
-          padding: EdgeInsets.only(top: 10),
-          child: Text(
-              DateFormat.yMMMMd(Localizations.localeOf(context).languageCode)
-                      .format(dream.date) +
-                  "\n\n" +
-                  dream.content),
+          padding: EdgeInsets.only(top: 8),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(DateFormat.yMMMMd(
+                      Localizations.localeOf(context).languageCode)
+                  .format(dream.date)),
+              SizedBox(height: 8),
+              Text(dream.content),
+            ],
+          ),
         ),
         onTap: () {
           Navigator.pushNamed(context, "/dreamDetails",
