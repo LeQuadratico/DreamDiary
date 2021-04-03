@@ -17,9 +17,11 @@ class _AddOrEditDreamScreenState extends State<AddOrEditDreamScreen> {
 
   @override
   Widget build(BuildContext context) {
-    newDream = ModalRoute.of(context).settings.arguments;
-    if (newDream == null)
-      newDream = new Dream("", "", Uuid().v4(), DateTime.now());
+    if (newDream == null) {
+      newDream = ModalRoute.of(context).settings.arguments;
+      if (newDream == null)
+        newDream = new Dream("", "", Uuid().v4(), DateTime.now());
+    }
 
     return AppLifecycleReactor(Scaffold(
       appBar: AppBar(
@@ -66,11 +68,13 @@ class _AddOrEditDreamScreenState extends State<AddOrEditDreamScreen> {
                 ),
                 SizedBox(height: 20),
                 OutlinedButton(
-                  child: Text(DateFormat.yMMMMd(Localizations.localeOf(context).languageCode).format(newDream.date)),
+                  child: Text(DateFormat.yMMMMd(
+                          Localizations.localeOf(context).languageCode)
+                      .format(newDream.date)),
                   onPressed: () async {
                     var newTime = await showDatePicker(
                         context: context,
-                        initialDate: DateTime.now(),
+                        initialDate: newDream.date,
                         firstDate: DateTime(2000, 0, 0),
                         lastDate:
                             DateTime.now().add(new Duration(days: 360 * 100)));

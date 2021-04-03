@@ -1,4 +1,3 @@
-import 'package:dream_diary/secure_storage_manager.dart';
 import 'package:dream_diary/views/local_auth_screen.dart';
 import 'package:dream_diary/views/settings_screen.dart';
 import 'package:flutter/material.dart';
@@ -14,14 +13,14 @@ var allDreams = <Dream>[];
 
 void main() {
   runApp(MyApp());
-  globals.secureStorageManager = new SecureStorageManager();
-  globals.secureStorageManager.loadList();
+  globals.initGlobals();
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      /* debugShowCheckedModeBanner: false, */
       title: 'Dream Diary',
       theme: ThemeData(
         primaryColor: Colors.blue,
