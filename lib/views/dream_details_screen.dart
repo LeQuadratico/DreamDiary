@@ -61,6 +61,15 @@ class _DreamDetailsScreenState extends State<DreamDetailsScreen> {
       allDreams.remove(dream);
       allDreams.insert(index, result); */
       dream = result;
+
+      globals.getSortMode().then((sortMode) {
+        setState(() {
+          if (sortMode == "newFirst")
+            allDreams.sort((b, a) => a.date.compareTo(b.date));
+          else if (sortMode == "oldFirst")
+            allDreams.sort((a, b) => a.date.compareTo(b.date));
+        });
+      });
     });
 
     list();

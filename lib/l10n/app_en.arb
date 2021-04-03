@@ -25,5 +25,9 @@
     "export": "Export",
     "exportDreams": "Export your dreams in the JSON format",
     "import": "Import",
-    "importDreams": "Import your dreams in the JSON format"
+    "importDreams": "Import your dreams in the JSON format",
+    "dreamSortOrder": "Sort order",
+    "dreamSortOrderDescription": "The sort order of your dreams in the list",
+    "newFirst": "New first",
+    "oldFirst": "Old first"
 }

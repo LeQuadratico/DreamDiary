@@ -7,6 +7,7 @@ import 'package:flutter_file_dialog/flutter_file_dialog.dart';
 import 'package:package_info/package_info.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../app_lifecycle_reactor.dart';
 import '../globals.dart' as globals;
@@ -99,10 +100,44 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     });
               }
               setState(() {
-                globals.secureStorageManager
-                    .replaceAllDreams(_loadedDreams);
+                globals.secureStorageManager.replaceAllDreams(_loadedDreams);
               });
             },
+          ),
+          Divider(),
+          ListTile(
+            title: Text(AppLocalizations.of(context).dreamSortOrder),
+            subtitle:
+                Text(AppLocalizations.of(context).dreamSortOrderDescription),
+            leading: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.sort,
+                ),
+              ],
+            ),
+            trailing: DropdownButton(
+              value: globals.sortMode,
+              items: [
+                DropdownMenuItem(
+                  value: "newFirst",
+                  child: Text(AppLocalizations.of(context).newFirst),
+                ),
+                DropdownMenuItem(
+                  value: "oldFirst",
+                  child: Text(AppLocalizations.of(context).oldFirst),
+                )
+              ],
+              onChanged: (value) async {
+                setState(() {
+                  globals.sortMode = value;
+                });
+
+                final prefs = await SharedPreferences.getInstance();
+                prefs.setString("sortMode", value);
+              },
+            ),
           ),
           Divider(),
           ListTile(

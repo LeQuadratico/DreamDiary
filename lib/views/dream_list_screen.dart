@@ -36,6 +36,14 @@ class _DreamListScreenState extends State<DreamListScreen> {
 
     setState(() {
       allDreams = _loadedDreams;
+      globals.getSortMode().then((sortMode) {
+        setState(() {
+          if (sortMode == "newFirst")
+            allDreams.sort((b, a) => a.date.compareTo(b.date));
+          else if (sortMode == "oldFirst")
+            allDreams.sort((a, b) => a.date.compareTo(b.date));
+        });
+      });
     });
   }
 
@@ -144,7 +152,14 @@ class _DreamListScreenState extends State<DreamListScreen> {
 
     setState(() {
       globals.secureStorageManager.addDream(result);
-      /* allDreams.add(result); */
+      globals.getSortMode().then((sortMode) {
+        setState(() {
+          if (sortMode == "newFirst")
+            allDreams.sort((b, a) => a.date.compareTo(b.date));
+          else if (sortMode == "oldFirst")
+            allDreams.sort((a, b) => a.date.compareTo(b.date));
+        });
+      });
     });
   }
 }
