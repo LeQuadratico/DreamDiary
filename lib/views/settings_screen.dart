@@ -46,6 +46,41 @@ class _SettingsScreenState extends State<SettingsScreen> {
         padding: EdgeInsets.only(top: 10, bottom: 10),
         children: [
           ListTile(
+            title: Text(AppLocalizations.of(context).dreamSortOrder),
+            subtitle:
+                Text(AppLocalizations.of(context).dreamSortOrderDescription),
+            leading: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.sort,
+                ),
+              ],
+            ),
+            trailing: DropdownButton(
+              value: globals.sortMode,
+              items: [
+                DropdownMenuItem(
+                  value: "newFirst",
+                  child: Text(AppLocalizations.of(context).newFirst),
+                ),
+                DropdownMenuItem(
+                  value: "oldFirst",
+                  child: Text(AppLocalizations.of(context).oldFirst),
+                )
+              ],
+              onChanged: (value) async {
+                setState(() {
+                  globals.sortMode = value;
+                });
+
+                final prefs = await SharedPreferences.getInstance();
+                prefs.setString("sortMode", value);
+              },
+            ),
+          ),
+          Divider(),
+          ListTile(
             title: Text(AppLocalizations.of(context).export),
             subtitle: Text(AppLocalizations.of(context).exportDreams),
             leading: Column(
@@ -103,41 +138,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 globals.secureStorageManager.replaceAllDreams(_loadedDreams);
               });
             },
-          ),
-          Divider(),
-          ListTile(
-            title: Text(AppLocalizations.of(context).dreamSortOrder),
-            subtitle:
-                Text(AppLocalizations.of(context).dreamSortOrderDescription),
-            leading: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.sort,
-                ),
-              ],
-            ),
-            trailing: DropdownButton(
-              value: globals.sortMode,
-              items: [
-                DropdownMenuItem(
-                  value: "newFirst",
-                  child: Text(AppLocalizations.of(context).newFirst),
-                ),
-                DropdownMenuItem(
-                  value: "oldFirst",
-                  child: Text(AppLocalizations.of(context).oldFirst),
-                )
-              ],
-              onChanged: (value) async {
-                setState(() {
-                  globals.sortMode = value;
-                });
-
-                final prefs = await SharedPreferences.getInstance();
-                prefs.setString("sortMode", value);
-              },
-            ),
           ),
           Divider(),
           ListTile(
