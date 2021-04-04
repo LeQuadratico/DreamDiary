@@ -1,5 +1,8 @@
 # Dream Diary
-This project aims to make a Dream Diary!
+This project aims to make a simple dream diary for mobile devices.
+
+## Technology
+I use Flutter to make this project a reality.
 
 ## License
 Dream Diary
