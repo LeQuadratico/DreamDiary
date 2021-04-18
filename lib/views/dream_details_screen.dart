@@ -14,7 +14,6 @@ GNU Affero General Public License for more details.
 You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -37,16 +36,39 @@ class _DreamDetailsScreenState extends State<DreamDetailsScreen> {
     final DreamAndList args = ModalRoute.of(context).settings.arguments;
     dream = args.dream;
     list = args.list;
+    IconData icon = Icons.error;
+    switch (dream.mood) {
+      case 0:
+        icon = Icons.sentiment_very_dissatisfied;
+        break;
+        case 1:
+        icon = Icons.sentiment_dissatisfied;
+        break;
+        case 2:
+        icon = Icons.sentiment_neutral;
+        break;
+        case 3:
+        icon = Icons.sentiment_satisfied_alt;
+        break;
+        case 4:
+        icon = Icons.sentiment_very_satisfied;
+        break;
+    }
+
     return AppLifecycleReactor(Scaffold(
       appBar: AppBar(
         title: Text(dream.title),
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(15),
+          padding: EdgeInsets.only(right: 15, left: 15, top: 10, bottom: 85),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              Icon(
+                icon,
+                size: 50,
+              ),
               Text(
                 DateFormat.yMMMMd(Localizations.localeOf(context).languageCode)
                     .format(dream.date),

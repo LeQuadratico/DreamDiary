@@ -30,6 +30,8 @@ class AddOrEditDreamScreen extends StatefulWidget {
 class _AddOrEditDreamScreenState extends State<AddOrEditDreamScreen> {
   final _formKey = GlobalKey<FormState>();
   Dream newDream;
+  List<bool> selectedMood = List<bool>.filled(5, false);
+  DateTime selectedDate;
 
   @override
   Widget build(BuildContext context) {
@@ -37,14 +39,15 @@ class _AddOrEditDreamScreenState extends State<AddOrEditDreamScreen> {
       newDream = ModalRoute.of(context).settings.arguments;
       if (newDream == null)
         newDream = new Dream("", "", Uuid().v4(), DateTime.now(), 2);
-    }
 
-    List<bool> selectedMood = List<bool>.filled(5, false);
-    for (var i = 0; i < 5; i++) {
-      if (i == newDream.mood)
-        selectedMood[i] = true;
-      else
-        selectedMood[i] = false;
+      for (var i = 0; i < 5; i++) {
+        if (i == newDream.mood)
+          selectedMood[i] = true;
+        else
+          selectedMood[i] = false;
+      }
+
+      selectedDate = newDream.date;
     }
 
     return AppLifecycleReactor(Scaffold(
@@ -93,15 +96,50 @@ class _AddOrEditDreamScreenState extends State<AddOrEditDreamScreen> {
                 SizedBox(height: 20),
                 ToggleButtons(
                   children: [
-                    Icon(Icons.sentiment_very_dissatisfied),
-                    Icon(Icons.sentiment_dissatisfied),
-                    Icon(Icons.sentiment_neutral),
-                    Icon(Icons.sentiment_satisfied_alt),
-                    Icon(Icons.sentiment_very_satisfied),
+                    Padding(
+                      padding: EdgeInsets.all(8),
+                      child: Icon(
+                        Icons.sentiment_very_dissatisfied,
+                        size: 40,
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(8),
+                      child: Icon(
+                        Icons.sentiment_dissatisfied,
+                        size: 40,
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(8),
+                      child: Icon(
+                        Icons.sentiment_neutral,
+                        size: 40,
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(8),
+                      child: Icon(
+                        Icons.sentiment_satisfied_alt,
+                        size: 40,
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(8),
+                      child: Icon(
+                        Icons.sentiment_very_satisfied,
+                        size: 40,
+                      ),
+                    ),
                   ],
                   onPressed: (int index) {
                     setState(() {
-                      newDream.mood = index;
+                      for (var i = 0; i < 5; i++) {
+                        if (i == index)
+                          selectedMood[i] = true;
+                        else
+                          selectedMood[i] = false;
+                      }
                     });
                   },
                   isSelected: selectedMood,
@@ -110,18 +148,18 @@ class _AddOrEditDreamScreenState extends State<AddOrEditDreamScreen> {
                 OutlinedButton(
                   child: Text(DateFormat.yMMMMd(
                           Localizations.localeOf(context).languageCode)
-                      .format(newDream.date)),
+                      .format(selectedDate)),
                   onPressed: () async {
                     var newTime = await showDatePicker(
                         context: context,
-                        initialDate: newDream.date,
+                        initialDate: selectedDate,
                         firstDate: DateTime(2000, 0, 0),
                         lastDate:
                             DateTime.now().add(new Duration(days: 360 * 100)));
 
                     if (newTime != null) {
                       setState(() {
-                        newDream.date = newTime;
+                        selectedDate = newTime;
                       });
                     }
                   },
@@ -142,6 +180,13 @@ class _AddOrEditDreamScreenState extends State<AddOrEditDreamScreen> {
   void saveDream() {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
+
+      for (var i = 0; i < 5; i++) {
+        if (selectedMood[i]) newDream.mood = i;
+      }
+
+      newDream.date = selectedDate;
+
       Navigator.pop(context, newDream);
     }
   }
