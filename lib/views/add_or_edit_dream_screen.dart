@@ -14,7 +14,6 @@ GNU Affero General Public License for more details.
 You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 
-
 import 'package:dream_diary/app_lifecycle_reactor.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -31,6 +30,7 @@ class AddOrEditDreamScreen extends StatefulWidget {
 class _AddOrEditDreamScreenState extends State<AddOrEditDreamScreen> {
   final _formKey = GlobalKey<FormState>();
   Dream newDream;
+  List<bool> selectedMood = List<bool>.filled(5, false);
 
   @override
   Widget build(BuildContext context) {
@@ -82,6 +82,27 @@ class _AddOrEditDreamScreenState extends State<AddOrEditDreamScreen> {
                     }
                     return null;
                   },
+                ),
+                SizedBox(height: 20),
+                ToggleButtons(
+                  children: [
+                    Icon(Icons.sentiment_very_dissatisfied),
+                    Icon(Icons.sentiment_dissatisfied),
+                    Icon(Icons.sentiment_neutral),
+                    Icon(Icons.sentiment_satisfied_alt),
+                    Icon(Icons.sentiment_very_satisfied),
+                  ],
+                  onPressed: (int index) {
+                    setState(() {
+                      for (var i = 0; i < 5; i++) {
+                        if (i == index)
+                          selectedMood[i] = true;
+                        else
+                          selectedMood[i] = false;
+                      }
+                    });
+                  },
+                  isSelected: selectedMood,
                 ),
                 SizedBox(height: 20),
                 OutlinedButton(
