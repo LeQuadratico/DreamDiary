@@ -14,7 +14,6 @@ GNU Affero General Public License for more details.
 You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 
-
 import 'package:dream_diary/views/local_auth_screen.dart';
 import 'package:dream_diary/views/settings_screen.dart';
 import 'package:flutter/material.dart';
@@ -76,14 +75,16 @@ class Dream {
   String content;
   String id;
   DateTime date;
+  int mood;
 
-  Dream(this.title, this.content, this.id, this.date);
+  Dream(this.title, this.content, this.id, this.date, this.mood);
 
   Map<String, dynamic> toJson() => {
         'title': this.title,
         'content': this.content,
         'id': this.id,
         'date': this.date.toIso8601String(),
+        'mood': this.mood,
       };
 }
 
