@@ -32,7 +32,7 @@ class SecureStorageManager {
       _dynamicList.forEach((dynamic item) => {
             if (item != null)
               _loadedDreams.add(Dream(item["title"], item["content"],
-                  item["id"], DateTime.parse(item["date"])))
+                  item["id"], DateTime.parse(item["date"]), item["mood"]))
           });
     }
   }

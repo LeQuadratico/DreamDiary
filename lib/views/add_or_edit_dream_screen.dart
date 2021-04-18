@@ -30,14 +30,21 @@ class AddOrEditDreamScreen extends StatefulWidget {
 class _AddOrEditDreamScreenState extends State<AddOrEditDreamScreen> {
   final _formKey = GlobalKey<FormState>();
   Dream newDream;
-  List<bool> selectedMood = List<bool>.filled(5, false);
 
   @override
   Widget build(BuildContext context) {
     if (newDream == null) {
       newDream = ModalRoute.of(context).settings.arguments;
       if (newDream == null)
-        newDream = new Dream("", "", Uuid().v4(), DateTime.now());
+        newDream = new Dream("", "", Uuid().v4(), DateTime.now(), 2);
+    }
+
+    List<bool> selectedMood = List<bool>.filled(5, false);
+    for (var i = 0; i < 5; i++) {
+      if (i == newDream.mood)
+        selectedMood[i] = true;
+      else
+        selectedMood[i] = false;
     }
 
     return AppLifecycleReactor(Scaffold(
@@ -94,12 +101,7 @@ class _AddOrEditDreamScreenState extends State<AddOrEditDreamScreen> {
                   ],
                   onPressed: (int index) {
                     setState(() {
-                      for (var i = 0; i < 5; i++) {
-                        if (i == index)
-                          selectedMood[i] = true;
-                        else
-                          selectedMood[i] = false;
-                      }
+                      newDream.mood = index;
                     });
                   },
                   isSelected: selectedMood,
