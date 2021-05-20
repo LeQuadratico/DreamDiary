@@ -28,33 +28,40 @@ class DreamDetailsScreen extends StatefulWidget {
 }
 
 class _DreamDetailsScreenState extends State<DreamDetailsScreen> {
-  Dream dream;
+  late Dream dream;
   var list;
+  late IconData icon;
 
   @override
-  Widget build(BuildContext context) {
-    final DreamAndList args = ModalRoute.of(context).settings.arguments;
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    final DreamAndList args =
+        ModalRoute.of(context)!.settings.arguments as DreamAndList;
     dream = args.dream;
     list = args.list;
-    IconData icon = Icons.error;
+    icon = Icons.error;
     switch (dream.mood) {
       case 0:
         icon = Icons.sentiment_very_dissatisfied;
         break;
-        case 1:
+      case 1:
         icon = Icons.sentiment_dissatisfied;
         break;
-        case 2:
+      case 2:
         icon = Icons.sentiment_neutral;
         break;
-        case 3:
+      case 3:
         icon = Icons.sentiment_satisfied_alt;
         break;
-        case 4:
+      case 4:
         icon = Icons.sentiment_very_satisfied;
         break;
     }
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return AppLifecycleReactor(Scaffold(
       appBar: AppBar(
         title: Text(dream.title),
@@ -82,7 +89,7 @@ class _DreamDetailsScreenState extends State<DreamDetailsScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _editDream,
-        tooltip: AppLocalizations.of(context).editDream,
+        tooltip: AppLocalizations.of(context)!.editDream,
         child: Icon(Icons.edit),
       ),
     ));
@@ -95,11 +102,29 @@ class _DreamDetailsScreenState extends State<DreamDetailsScreen> {
     if (result == null) return;
 
     setState(() {
-      globals.secureStorageManager.replaceDream(dream, result);
+      globals.secureStorageManager.replaceDream(dream, result as Dream);
       /* final index = allDreams.indexOf(dream);
       allDreams.remove(dream);
       allDreams.insert(index, result); */
       dream = result;
+
+      switch (dream.mood) {
+        case 0:
+          icon = Icons.sentiment_very_dissatisfied;
+          break;
+        case 1:
+          icon = Icons.sentiment_dissatisfied;
+          break;
+        case 2:
+          icon = Icons.sentiment_neutral;
+          break;
+        case 3:
+          icon = Icons.sentiment_satisfied_alt;
+          break;
+        case 4:
+          icon = Icons.sentiment_very_satisfied;
+          break;
+      }
 
       globals.getSortMode().then((sortMode) {
         setState(() {

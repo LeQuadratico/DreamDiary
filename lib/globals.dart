@@ -14,14 +14,13 @@ GNU Affero General Public License for more details.
 You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 
-
 library dream_diary.globals;
 
 import 'package:dream_diary/secure_storage_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-SecureStorageManager secureStorageManager;
-String sortMode;
+late SecureStorageManager secureStorageManager;
+String? sortMode;
 
 initGlobals() async {
   secureStorageManager = new SecureStorageManager();
@@ -39,5 +38,5 @@ Future<String> getSortMode() async {
     sortMode = prefs.getString("sortMode") ?? "newFirst";
   }
 
-  return sortMode;
+  return sortMode!;
 }

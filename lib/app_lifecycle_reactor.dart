@@ -14,7 +14,6 @@ GNU Affero General Public License for more details.
 You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 
-
 import 'package:flutter/material.dart';
 
 class AppLifecycleReactor extends StatefulWidget {
@@ -31,19 +30,20 @@ class _AppLifecycleReactorState extends State<AppLifecycleReactor>
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance!.addObserver(this);
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
+    WidgetsBinding.instance!.removeObserver(this);
     super.dispose();
   }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.paused)
-      Navigator.of(context).pushNamedAndRemoveUntil("/localAuth", (Route<dynamic> route) => false);
+      Navigator.of(context).pushNamedAndRemoveUntil(
+          "/localAuth", (Route<dynamic> route) => false);
   }
 
   @override

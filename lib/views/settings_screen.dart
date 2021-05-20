@@ -14,7 +14,6 @@ GNU Affero General Public License for more details.
 You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 
-
 import 'dart:convert';
 import 'dart:io';
 
@@ -56,16 +55,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     return AppLifecycleReactor(Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context).settings),
+        title: Text(AppLocalizations.of(context)!.settings),
       ),
       drawer: NavDrawer(),
       body: ListView(
         padding: EdgeInsets.only(top: 10, bottom: 10),
         children: [
           ListTile(
-            title: Text(AppLocalizations.of(context).dreamSortOrder),
+            title: Text(AppLocalizations.of(context)!.dreamSortOrder),
             subtitle:
-                Text(AppLocalizations.of(context).dreamSortOrderDescription),
+                Text(AppLocalizations.of(context)!.dreamSortOrderDescription),
             leading: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -79,14 +78,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
               items: [
                 DropdownMenuItem(
                   value: "newFirst",
-                  child: Text(AppLocalizations.of(context).newFirst),
+                  child: Text(AppLocalizations.of(context)!.newFirst),
                 ),
                 DropdownMenuItem(
                   value: "oldFirst",
-                  child: Text(AppLocalizations.of(context).oldFirst),
+                  child: Text(AppLocalizations.of(context)!.oldFirst),
                 )
               ],
-              onChanged: (value) async {
+              onChanged: (dynamic value) async {
                 setState(() {
                   globals.sortMode = value;
                 });
@@ -98,8 +97,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
           Divider(),
           ListTile(
-            title: Text(AppLocalizations.of(context).export),
-            subtitle: Text(AppLocalizations.of(context).exportDreams),
+            title: Text(AppLocalizations.of(context)!.export),
+            subtitle: Text(AppLocalizations.of(context)!.exportDreams),
             leading: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -123,8 +122,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
             },
           ),
           ListTile(
-            title: Text(AppLocalizations.of(context).import),
-            subtitle: Text(AppLocalizations.of(context).importDreams),
+            title: Text(AppLocalizations.of(context)!.import),
+            subtitle: Text(AppLocalizations.of(context)!.importDreams),
             leading: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -138,19 +137,23 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 dialogType: OpenFileDialogType.document,
                 sourceType: SourceType.photoLibrary,
               );
-              final filePath = await FlutterFileDialog.pickFile(params: params);
+              final filePath = await (FlutterFileDialog.pickFile(params: params)
+                  as Future<String>);
 
               var _loadedDreams = <Dream>[];
               final file = File(filePath);
               final dreamsEncoded = await file.readAsString();
-              if (dreamsEncoded != null) {
-                var _dynamicList = jsonDecode(dreamsEncoded);
-                _dynamicList.forEach((dynamic item) => {
-                      if (item != null)
-                        _loadedDreams.add(Dream(item["title"], item["content"],
-                            item["id"], DateTime.parse(item["date"]), item["mood"]))
-                    });
-              }
+              var _dynamicList = jsonDecode(dreamsEncoded);
+              _dynamicList.forEach((dynamic item) => {
+                    if (item != null)
+                      _loadedDreams.add(Dream(
+                          item["title"],
+                          item["content"],
+                          item["id"],
+                          DateTime.parse(item["date"]),
+                          item["mood"]))
+                  });
+
               setState(() {
                 globals.secureStorageManager.replaceAllDreams(_loadedDreams);
               });
@@ -158,27 +161,27 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
           Divider(),
           ListTile(
-            title: Text(AppLocalizations.of(context).deleteAllDreams),
+            title: Text(AppLocalizations.of(context)!.deleteAllDreams),
             subtitle:
-                Text(AppLocalizations.of(context).deleteAllDreamsDescription),
+                Text(AppLocalizations.of(context)!.deleteAllDreamsDescription),
             leading: Icon(Icons.delete_forever),
             onTap: () async {
-              bool delete = await showDialog(
+              bool? delete = await showDialog(
                 context: context,
                 builder: (BuildContext context) {
                   return AlertDialog(
-                    title: Text(AppLocalizations.of(context).confirm),
+                    title: Text(AppLocalizations.of(context)!.confirm),
                     content: Text(
-                        AppLocalizations.of(context).confirmDeleteAllDreams),
+                        AppLocalizations.of(context)!.confirmDeleteAllDreams),
                     actions: <Widget>[
                       TextButton(
                         onPressed: () => Navigator.of(context).pop(false),
                         child: Text(
-                            AppLocalizations.of(context).cancel.toUpperCase()),
+                            AppLocalizations.of(context)!.cancel.toUpperCase()),
                       ),
                       ElevatedButton(
                         onPressed: () => Navigator.of(context).pop(true),
-                        child: Text(AppLocalizations.of(context)
+                        child: Text(AppLocalizations.of(context)!
                             .deleteAll
                             .toUpperCase()),
                         style: ButtonStyle(
@@ -198,7 +201,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 });
 
                 final snackBar = SnackBar(
-                  content: Text(AppLocalizations.of(context).allDreamsDeleted),
+                  content: Text(AppLocalizations.of(context)!.allDreamsDeleted),
                 );
                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
               }
@@ -207,7 +210,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           Divider(),
           ListTile(
             title: Text(
-              AppLocalizations.of(context).version + " $versionName",
+              AppLocalizations.of(context)!.version + " $versionName",
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.caption,
             ),
