@@ -14,7 +14,6 @@ GNU Affero General Public License for more details.
 You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 
-
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -29,7 +28,7 @@ class NavDrawer extends StatelessWidget {
             child: Container(
               alignment: Alignment.center,
               child: Text(
-                AppLocalizations.of(context).appName,
+                AppLocalizations.of(context)!.appName,
                 style: Theme.of(context).textTheme.headline5,
                 textAlign: TextAlign.center,
               ),
@@ -37,30 +36,31 @@ class NavDrawer extends StatelessWidget {
             decoration: BoxDecoration(color: Colors.blue),
           ),
           ListTile(
-            title: Text(AppLocalizations.of(context).dreamList),
+            title: Text(AppLocalizations.of(context)!.dreamList),
             leading: Icon(Icons.list),
             onTap: () {
               Navigator.pop(context);
-              if (ModalRoute.of(context).settings.name != "/dreamList")
+              if (ModalRoute.of(context)!.settings.name != "/dreamList")
                 Navigator.pushReplacementNamed(context, "/dreamList");
             },
           ),
           ListTile(
-            title: Text(AppLocalizations.of(context).addDream),
+            title: Text(AppLocalizations.of(context)!.addDream),
             leading: Icon(Icons.add_circle),
             onTap: () {
               Navigator.pop(context);
-              Navigator.pushReplacementNamed(context, "/dreamList", arguments: true);
+              Navigator.pushReplacementNamed(context, "/dreamList",
+                  arguments: true);
             },
           ),
           Divider(),
           ListTile(
-            title: Text(AppLocalizations.of(context).settings),
+            title: Text(AppLocalizations.of(context)!.settings),
             leading: Icon(Icons.settings),
             onTap: () {
               Navigator.pop(context);
-              if (ModalRoute.of(context).settings.name != "/settings")
-              Navigator.pushReplacementNamed(context, "/settings");
+              if (ModalRoute.of(context)!.settings.name != "/settings")
+                Navigator.pushReplacementNamed(context, "/settings");
             },
           ),
         ],

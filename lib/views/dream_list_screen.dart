@@ -14,7 +14,6 @@ GNU Affero General Public License for more details.
 You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 
-
 import 'package:intl/intl.dart';
 
 import '../app_lifecycle_reactor.dart';
@@ -37,8 +36,8 @@ class _DreamListScreenState extends State<DreamListScreen> {
     super.initState();
 
     loadData();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      final bool args = ModalRoute.of(context).settings.arguments;
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      final bool? args = ModalRoute.of(context)!.settings.arguments as bool?;
       if (args != null && args) _pushAddDream();
     });
   }
@@ -48,11 +47,11 @@ class _DreamListScreenState extends State<DreamListScreen> {
   }
 
   loadData() async {
-    var _loadedDreams = <Dream>[];
+    List<Dream>? _loadedDreams = <Dream>[];
     _loadedDreams = globals.secureStorageManager.getAllDreams();
 
     setState(() {
-      allDreams = _loadedDreams;
+      allDreams = _loadedDreams!;
       globals.getSortMode().then((sortMode) {
         setState(() {
           if (sortMode == "newFirst")
@@ -68,12 +67,12 @@ class _DreamListScreenState extends State<DreamListScreen> {
   Widget build(BuildContext context) {
     return AppLifecycleReactor(Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context).appName),
+        title: Text(AppLocalizations.of(context)!.appName),
       ),
       body: _buildDreamList(),
       floatingActionButton: FloatingActionButton(
         onPressed: _pushAddDream,
-        tooltip: AppLocalizations.of(context).addDream,
+        tooltip: AppLocalizations.of(context)!.addDream,
         child: Icon(Icons.add),
       ),
       drawer: NavDrawer(),
@@ -130,18 +129,18 @@ class _DreamListScreenState extends State<DreamListScreen> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text(AppLocalizations.of(context).confirm),
-              content: Text(AppLocalizations.of(context).confirmDeleteDream),
+              title: Text(AppLocalizations.of(context)!.confirm),
+              content: Text(AppLocalizations.of(context)!.confirmDeleteDream),
               actions: <Widget>[
                 TextButton(
                   onPressed: () => Navigator.of(context).pop(false),
                   child:
-                      Text(AppLocalizations.of(context).cancel.toUpperCase()),
+                      Text(AppLocalizations.of(context)!.cancel.toUpperCase()),
                 ),
                 ElevatedButton(
                   onPressed: () => Navigator.of(context).pop(true),
                   child:
-                      Text(AppLocalizations.of(context).delete.toUpperCase()),
+                      Text(AppLocalizations.of(context)!.delete.toUpperCase()),
                   style: ButtonStyle(
                     backgroundColor:
                         MaterialStateProperty.all<Color>(Colors.red),
@@ -168,7 +167,7 @@ class _DreamListScreenState extends State<DreamListScreen> {
     if (result == null) return;
 
     setState(() {
-      globals.secureStorageManager.addDream(result);
+      globals.secureStorageManager.addDream(result as Dream);
       globals.getSortMode().then((sortMode) {
         setState(() {
           if (sortMode == "newFirst")

@@ -25,7 +25,7 @@ import 'views/dream_list_screen.dart';
 import 'views/dream_details_screen.dart';
 import 'globals.dart' as globals;
 
-var allDreams = <Dream>[];
+List<Dream> allDreams = <Dream>[];
 
 void main() {
   runApp(MyApp());
@@ -93,4 +93,4 @@ class DreamAndList {
   var list;
 
   DreamAndList(this.dream, this.list);
-}
+}//MERGEFIX

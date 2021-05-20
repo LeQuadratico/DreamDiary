@@ -29,30 +29,34 @@ class AddOrEditDreamScreen extends StatefulWidget {
 
 class _AddOrEditDreamScreenState extends State<AddOrEditDreamScreen> {
   final _formKey = GlobalKey<FormState>();
-  Dream newDream;
+  late Dream newDream;
   List<bool> selectedMood = List<bool>.filled(5, false);
-  DateTime selectedDate;
+  late DateTime selectedDate;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    if (ModalRoute.of(context)!.settings.arguments != null)
+      newDream = ModalRoute.of(context)!.settings.arguments as Dream;
+    else
+      newDream = new Dream("", "", Uuid().v4(), DateTime.now(), 2);
+
+    for (var i = 0; i < 5; i++) {
+      if (i == newDream.mood)
+        selectedMood[i] = true;
+      else
+        selectedMood[i] = false;
+    }
+
+    selectedDate = newDream.date;
+  }
 
   @override
   Widget build(BuildContext context) {
-    if (newDream == null) {
-      newDream = ModalRoute.of(context).settings.arguments;
-      if (newDream == null)
-        newDream = new Dream("", "", Uuid().v4(), DateTime.now(), 2);
-
-      for (var i = 0; i < 5; i++) {
-        if (i == newDream.mood)
-          selectedMood[i] = true;
-        else
-          selectedMood[i] = false;
-      }
-
-      selectedDate = newDream.date;
-    }
-
     return AppLifecycleReactor(Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context).addEditDream),
+        title: Text(AppLocalizations.of(context)!.addEditDream),
       ),
       body: SingleChildScrollView(
         child: Form(
@@ -64,13 +68,13 @@ class _AddOrEditDreamScreenState extends State<AddOrEditDreamScreen> {
                 TextFormField(
                   initialValue: newDream.title,
                   decoration: InputDecoration(
-                    hintText: AppLocalizations.of(context).title,
+                    hintText: AppLocalizations.of(context)!.title,
                     border: OutlineInputBorder(),
                   ),
-                  onSaved: (val) => newDream.title = val,
+                  onSaved: (val) => newDream.title = val!,
                   validator: (value) {
-                    if (value.isEmpty) {
-                      return AppLocalizations.of(context).pleaseEnterTitle;
+                    if (value!.isEmpty) {
+                      return AppLocalizations.of(context)!.pleaseEnterTitle;
                     }
                     return null;
                   },
@@ -82,13 +86,13 @@ class _AddOrEditDreamScreenState extends State<AddOrEditDreamScreen> {
                   /*  minLines: 5, */
                   maxLines: null,
                   decoration: InputDecoration(
-                    hintText: AppLocalizations.of(context).content,
+                    hintText: AppLocalizations.of(context)!.content,
                     border: OutlineInputBorder(),
                   ),
-                  onSaved: (val) => newDream.content = val,
+                  onSaved: (val) => newDream.content = val!,
                   validator: (value) {
-                    if (value.isEmpty) {
-                      return AppLocalizations.of(context).pleaseEnterText;
+                    if (value!.isEmpty) {
+                      return AppLocalizations.of(context)!.pleaseEnterText;
                     }
                     return null;
                   },
@@ -171,15 +175,15 @@ class _AddOrEditDreamScreenState extends State<AddOrEditDreamScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: saveDream,
-        tooltip: AppLocalizations.of(context).saveDream,
+        tooltip: AppLocalizations.of(context)!.saveDream,
         child: Icon(Icons.save),
       ),
     ));
   }
 
   void saveDream() {
-    if (_formKey.currentState.validate()) {
-      _formKey.currentState.save();
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
 
       for (var i = 0; i < 5; i++) {
         if (selectedMood[i]) newDream.mood = i;
